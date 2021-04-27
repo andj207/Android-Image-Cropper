@@ -93,6 +93,8 @@ public final class CropImage {
 
   /** The result code used to return error from {@link CropImageActivity}. */
   public static final int CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE = 204;
+
+  private static Uri captureOutputUri;
   // endregion
 
   private CropImage() {}
@@ -340,12 +342,20 @@ public final class CropImage {
    *     activity/fragment/widget.
    */
   public static Uri getCaptureImageOutputUri(@NonNull Context context) {
+    if (captureOutputUri != null){
+      return captureOutputUri;
+    }
+
     Uri outputFileUri = null;
     File getImage = context.getExternalCacheDir();
     if (getImage != null) {
       outputFileUri = Uri.fromFile(new File(getImage.getPath(), "pickImageResult.jpeg"));
     }
     return outputFileUri;
+  }
+
+  public static void setCaptureImageOutputUri(@NonNull Uri uri){
+    captureOutputUri = uri;
   }
 
   /**
